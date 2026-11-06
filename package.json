@@ -1,0 +1,13 @@
+{
+  "name": "loja-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Template de e-commerce estático com checkout Stripe, pronto para a Vercel",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "stripe": "^17.0.0"
+  },
+  "engines": { "node": ">=20" }
+}
