@@ -1,12 +1,14 @@
 {
-  "name": "loja-ecommerce",
-  "version": "1.0.0",
+  "name": "artigos-de-quebra",
+  "version": "2.0.0",
   "private": true,
-  "description": "Template de e-commerce estático com checkout Stripe, pronto para a Vercel",
+  "description": "Loja Artigos de Quebra — e-commerce com contas, painel admin e Stripe (Vercel)",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "node scripts/dev.js",
+    "test": "node tests/api.test.js"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
     "stripe": "^17.0.0"
   },
   "engines": { "node": ">=20" }

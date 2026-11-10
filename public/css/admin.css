@@ -1,0 +1,91 @@
+/* Painel admin */
+.gate{max-width:460px;margin:12vh auto;padding:0 20px;text-align:center}
+.gate img{height:120px;margin:0 auto 18px}
+.gate p{color:var(--muted);margin-bottom:24px}
+.adm{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+.adm[hidden]{display:none}
+.adm-side{background:var(--bg-2);border-right:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.adm-side>a img{height:96px;width:auto;margin:0 auto 14px;display:block}
+.adm-nav{display:flex;flex-direction:column;gap:2px}
+.nav-i{text-align:left;padding:12px 14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;color:var(--muted);border-left:3px solid transparent}
+.nav-i:hover{color:#fff}
+.nav-i.on{color:#fff;border-color:var(--accent-text);background:var(--bg-3)}
+.adm-foot{margin-top:auto;font-size:12px;color:var(--muted);display:grid;gap:8px;padding:0 6px}
+.adm-foot a:hover,.adm-foot button:hover{color:#fff}
+.adm-foot button{text-align:left;color:var(--muted);padding:0}
+.adm-main{padding:32px clamp(16px,3vw,44px) 90px;min-width:0}
+.adm-main h1{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,4vw,42px);line-height:1}
+.adm-head{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:24px}
+.adm-head .tools{display:flex;gap:10px;flex-wrap:wrap}
+.adm-head .btn-primary,.adm-head .btn-outline{padding:12px 20px}
+@media(max-width:900px){
+  .adm{grid-template-columns:1fr}
+  .adm-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px 14px;gap:10px}
+  .adm-side>a img{height:48px;margin:0}
+  .adm-nav{flex-direction:row;flex-wrap:wrap}
+  .nav-i{border-left:0;border-bottom:3px solid transparent;padding:10px}
+  .nav-i.on{border-bottom-color:var(--accent-text)}
+  .adm-foot{margin:0 0 0 auto;display:flex;align-items:center;gap:14px}
+  #adm-user{display:none}
+}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.kpi{background:var(--bg-2);border:1px solid var(--line);padding:18px}
+.kpi .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:var(--font-display);font-size:34px;margin-top:8px;line-height:1.1}
+.kpi .d{font-size:12px;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:14px;margin-top:14px}
+@media(max-width:1000px){.grid2{grid-template-columns:1fr}}
+.pc{background:var(--bg-2);border:1px solid var(--line);padding:18px;min-width:0}
+.pc h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pc h2 button{font-size:11px;color:var(--muted);text-decoration:underline;letter-spacing:.04em;text-transform:none}
+.list-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
+.list-row:last-child{border:0}
+.list-row .mut{color:var(--muted)}
+.empty-s{color:var(--muted);font-size:13px;padding:8px 0}
+
+/* gráfico */
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.chart .ax{fill:var(--muted);font-size:11px;font-family:var(--font-body)}
+.chart .grid-l{stroke:rgba(255,255,255,.08);stroke-width:1}
+.chart .bar{fill:var(--accent-text)}
+.chart .hit:hover+.bar,.chart .col:hover .bar{fill:#fff}
+.chart .hit{fill:transparent}
+.tip{position:absolute;pointer-events:none;background:#fff;color:#000;padding:8px 10px;font-size:12px;line-height:1.4;white-space:nowrap;transform:translate(-50%,-110%);z-index:3}
+.tip b{display:block}
+.chart-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;pointer-events:none}
+
+/* tabelas */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);background:var(--bg-2)}
+table.t{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+.t th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.t td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:middle}
+.t tr:last-child td{border:0}
+.t tbody tr:hover{background:rgba(255,255,255,.03)}
+.t .num{text-align:right;white-space:nowrap}
+.t img.th{width:44px;height:44px;object-fit:cover;background:var(--bg-3);display:block}
+.t .sub{color:var(--muted);font-size:12px}
+.link-b{color:var(--accent-text);text-decoration:underline;font-weight:600}
+.pill.ativo{color:#7ee2a0;border-color:#1d6b3a}.pill.inativo{color:var(--muted)}.pill.esgotado{color:#ff8a8a;border-color:#6b2424}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:grid;place-items:start center;overflow:auto;padding:4vh 14px}
+.modal[hidden]{display:none}
+.modal-box{position:relative;background:var(--bg-2);border:1px solid var(--line);width:min(760px,100%);padding:28px}
+.modal-x{position:absolute;top:12px;right:14px;font-size:18px;color:var(--muted)}
+.modal-box h2{font-family:var(--font-display);font-weight:400;font-size:28px;margin-bottom:18px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.f2{grid-template-columns:1fr}}
+.checks{display:flex;flex-wrap:wrap;gap:18px;margin:6px 0}
+.checks label{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
+.imgbox{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.imgbox img{width:96px;height:96px;object-fit:cover;background:var(--bg-3);border:1px solid var(--line)}
+.imgbox input[type=file]{padding:8px;font-size:12px}
+.dl{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;font-size:13px;margin-bottom:16px}
+.dl dt{color:var(--muted)}
+.sec-t{font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin:22px 0 10px;color:var(--muted)}
+.form .row-end{display:flex;justify-content:flex-end;gap:10px}
+.form .row-end .btn-primary{width:auto;padding:14px 28px}
+.tview{margin-top:10px}
+.tview summary{cursor:pointer;font-size:12px;color:var(--muted)}

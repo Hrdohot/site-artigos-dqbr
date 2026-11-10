@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minha conta — Artigos de Quebra</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="account">
+<div class="announce" id="announce"></div>
+<header class="header" id="header"></header>
+<main class="container account">
+  <h1>MINHA CONTA</h1>
+  <p class="sub" id="hello"></p>
+  <div class="tabs" role="tablist">
+    <button class="on" data-tab="orders">Meus pedidos</button>
+    <button data-tab="profile">Meus dados</button>
+  </div>
+
+  <section id="tab-orders"><div id="orders"></div></section>
+
+  <section id="tab-profile" hidden>
+    <div class="panel">
+      <h2>Dados pessoais</h2>
+      <form class="form" id="form-profile" novalidate>
+        <div class="field"><label for="p-name">Nome</label><input id="p-name" type="text" maxlength="80" required></div>
+        <div class="field"><label for="p-email">E-mail</label><input id="p-email" type="email" disabled><small>O e-mail não pode ser alterado.</small></div>
+        <div class="field"><label for="p-phone">Telefone</label><input id="p-phone" type="tel" placeholder="(48) 99999-9999"></div>
+        <div class="form-msg" id="p-msg" role="status"></div>
+        <button class="btn-primary" type="submit">Salvar</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>Alterar senha</h2>
+      <form class="form" id="form-pass" novalidate>
+        <div class="field"><label for="s-cur">Senha atual</label><input id="s-cur" type="password" autocomplete="current-password" required></div>
+        <div class="field"><label for="s-new">Nova senha</label><input id="s-new" type="password" autocomplete="new-password" minlength="8" required></div>
+        <div class="form-msg" id="s-msg" role="status"></div>
+        <button class="btn-primary" type="submit">Alterar senha</button>
+      </form>
+    </div>
+    <div class="panel"><button class="btn-outline" id="logout">Sair da conta</button></div>
+  </section>
+</main>
+<footer class="footer" id="footer"></footer>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/conta.js"></script>
+</body>
+</html>

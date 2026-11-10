@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar — Artigos de Quebra</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="login">
+<div class="announce" id="announce"></div>
+<header class="header" id="header"></header>
+<main>
+  <div class="auth">
+    <img class="logo-big" src="img/logo.png" alt="Artigos de Quebra">
+    <div class="tabs" role="tablist">
+      <button class="on" data-tab="login" role="tab">Entrar</button>
+      <button data-tab="register" role="tab">Criar conta</button>
+    </div>
+
+    <form class="form" id="form-login" novalidate>
+      <div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="l-pass">Senha</label><input id="l-pass" type="password" autocomplete="current-password" required></div>
+      <div class="form-msg err" id="l-msg" role="alert"></div>
+      <button class="btn-primary" type="submit">Entrar</button>
+      <p class="hint">Ainda não tem conta? <a href="#" data-go="register" style="text-decoration:underline">Cadastre-se</a></p>
+    </form>
+
+    <form class="form" id="form-register" novalidate hidden>
+      <div class="field"><label for="r-name">Nome completo</label><input id="r-name" type="text" autocomplete="name" maxlength="80" required></div>
+      <div class="field"><label for="r-email">E-mail</label><input id="r-email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="r-phone">WhatsApp / telefone <small style="display:inline;text-transform:none;letter-spacing:0">(opcional)</small></label><input id="r-phone" type="tel" autocomplete="tel" placeholder="(48) 99999-9999"></div>
+      <div class="field"><label for="r-pass">Senha</label><input id="r-pass" type="password" autocomplete="new-password" minlength="8" required><small>Mínimo de 8 caracteres.</small></div>
+      <div class="form-msg err" id="r-msg" role="alert"></div>
+      <button class="btn-primary" type="submit">Criar conta</button>
+      <p class="hint">Com a conta você acompanha seus pedidos.</p>
+    </form>
+  </div>
+</main>
+<footer class="footer" id="footer"></footer>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
