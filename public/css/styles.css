@@ -278,3 +278,6 @@ select,input[type=text],input[type=search],input[type=email]{background:var(--bg
 .slide.has-art h2{font-size:clamp(40px,6vw,92px)}
 .slide.has-art .art{height:88%;max-width:40%}
 @media(max-width:900px){.slide.has-art .inner{max-width:none}}
+
+/* garante que elementos [hidden] realmente sumam (ex.: formulário de cadastro na aba Entrar) */
+[hidden]{display:none !important}
