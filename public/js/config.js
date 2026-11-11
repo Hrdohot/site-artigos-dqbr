@@ -7,8 +7,8 @@ window.STORE = {
   name: "Artigos de Quebra",
   logoImage: "img/logo.png",
   announcement: "Frete grátis para todo o Brasil",
-  announcementLink: { text: "Não encontrou? Fale com a gente ↗", href: "https://instagram.com/artigosdequebra" },
-  instagram: "https://instagram.com/artigosdequebra",   // ← troque pelo seu @
+  announcementLink: { text: "Não encontrou? Fale com a gente ↗", href: "https://www.instagram.com/artigos_dequebra/" },
+  instagram: "https://www.instagram.com/artigos_dequebra/",   // ← troque pelo seu @
   whatsapp: "5548999999999",                            // ← DDI+DDD+número, só dígitos
   maxInstallments: 12,
 
