@@ -203,6 +203,39 @@ const t = async (name, fn) => { try { await fn(); passed++; console.log('  ✓',
     assert.ok(!c.find((x) => x.email === 'owner@test.com'));
   });
 
+  await t('entrega: encomenda só na Grande Floripa e sem misturar com pronta entrega', async () => {
+    const mk = await admin('POST', '/api/admin/products', { name: 'Relógio Sob Encomenda', category: 'acessorios', price: 2000, sizes: 'Único', fulfillment: 'encomenda' });
+    assert.equal(mk.status, 201); assert.equal(mk.data.product.fulfillment, 'encomenda');
+    assert.equal((await anon('GET', '/api/products')).data.products.find((p) => p.id === 'relogio-sob-encomenda').fulfillment, 'encomenda');
+    assert.equal((await anon('GET', '/api/products')).data.products.find((p) => p.id === productId).fulfillment, 'pronta_entrega');
+    const enc = { id: 'relogio-sob-encomenda', size: 'Único', qty: 1 };
+    assert.equal((await bob('POST', '/api/checkout', { items: [enc, { id: productId, size: '40', qty: 1 }], cep: '88010-400' })).status, 400); // mistura
+    assert.equal((await bob('POST', '/api/checkout', { items: [enc] })).status, 422);                       // sem CEP
+    assert.equal((await bob('POST', '/api/checkout', { items: [enc], cep: '80010-000' })).status, 422);     // Curitiba
+    const bad = await bob('POST', '/api/checkout', { items: [enc], cep: '80010000' });
+    assert.match(bad.data.error, /Florianópolis, São José, Palhoça e Biguaçu/);
+    for (const cep of ['88010-400', '88101-000', '88131000', '88160-000']) assert.equal((await bob('POST', '/api/checkout', { items: [enc], cep })).status, 200, cep);
+    // pronta entrega continua sem exigir CEP
+    assert.equal((await bob('POST', '/api/checkout', { items: [{ id: productId, size: '40', qty: 1 }] })).status, 200);
+  });
+
+  await t('encomenda paga com endereço fora da área é sinalizada para o admin', async () => {
+    const post = (s) => fetch(base + '/api/stripe/webhook', { method: 'POST', headers: { 'stripe-signature': 'valid', 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'checkout.session.completed', data: { object: s } }) });
+    const encSessions = [...sessions.values()].filter((s) => s.params.metadata.fulfillment === 'encomenda');
+    assert.equal(encSessions.length, 4);
+    assert.match(encSessions[0].params.shipping_options[0].shipping_rate_data.display_name, /Grande Florianópolis/);
+    assert.equal(encSessions[0].params.metadata.cep, '88010400');
+    const [dentro, fora] = [encSessions[0], encSessions[1]];
+    dentro.payment_status = 'paid'; dentro.shipping_details.address.city = 'Palhoça'; dentro.shipping_details.address.postal_code = '88131000';
+    fora.payment_status = 'paid'; fora.shipping_details.address.city = 'Curitiba'; fora.shipping_details.address.postal_code = '80010000';
+    assert.equal((await post(dentro)).status, 200); assert.equal((await post(fora)).status, 200);
+    const list = (await admin('GET', '/api/admin/orders')).data.orders.filter((o) => o.fulfillment === 'encomenda' && o.status === 'pago');
+    assert.equal(list.length, 2);
+    assert.equal(list.filter((o) => o.outsideArea).length, 1);
+    assert.equal((await admin('GET', '/api/admin/dashboard')).data.kpis.checkAddress, 1);
+    const mine = (await bob('GET', '/api/orders')).data.orders; assert.ok(mine.every((o) => !('outsideArea' in o)) && mine.some((o) => o.fulfillment === 'encomenda'));
+  });
+
   await t('admin edita e desativa produto (sem apagar); preserva upload', async () => {
     const cur = (await admin('GET', '/api/admin/products')).data.products.find((p) => p.id === 'camiseta-teste-c');
     const r = await admin('PUT', '/api/admin/products/camiseta-teste-c', { ...cur, price: 120, active: false });

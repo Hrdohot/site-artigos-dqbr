@@ -115,7 +115,17 @@
     }).join("");
     box.innerHTML = html || '<div class="empty-cart">Seu carrinho está vazio.</div>';
     $("#cart-total").textContent = brl(total);
-    $("#checkout-btn").disabled = !html;
+    // pronta entrega x encomenda: não misturam; encomenda pede CEP e oferece WhatsApp
+    const lines = c.map((i) => ({ i, p: byId(i.id) })).filter((x) => x.p);
+    const hasEnc = lines.some((x) => x.p.fulfillment === "encomenda");
+    const mixed = hasEnc && lines.some((x) => x.p.fulfillment !== "encomenda");
+    $("#cart-enc").hidden = !(hasEnc && !mixed);
+    $("#cart-mixed").hidden = !mixed;
+    $("#checkout-btn").disabled = !html || mixed;
+    if (hasEnc && !mixed) {
+      const msg = `${S.encomenda.whatsappText}\n` + lines.map((x) => `• ${x.p.name} (tam. ${x.i.size}) x${x.i.qty}`).join("\n") + `\nTotal: ${brl(total)}`;
+      $("#cart-wa").href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+    }
   }
 
   function toast(msg) {
@@ -136,9 +146,12 @@
       location.href = "login.html?next=" + encodeURIComponent(safeNext(here + location.search) || "loja.html");
       return;
     }
+    const encOpen = !$("#cart-enc").hidden;
+    const cep = encOpen ? $("#cart-cep").value.replace(/\D/g, "") : "";
+    if (encOpen && cep.length !== 8) { err.textContent = "Informe o CEP de entrega (8 dígitos)."; return; }
     btn.disabled = true; btn.textContent = "Redirecionando...";
     try {
-      const data = await api("/checkout", { method: "POST", body: { items: cart.get() } });
+      const data = await api("/checkout", { method: "POST", body: { items: cart.get(), cep } });
       location.href = data.url;
     } catch (e) {
       if (e.status === 401) { AQ.user = null; location.href = "login.html?next=loja.html"; return; }
@@ -207,6 +220,13 @@
         <footer>
           <div class="sum"><span>Total</span><span id="cart-total">R$ 0,00</span></div>
           <p class="note">Frete e parcelamento calculados no pagamento.</p>
+          <div class="enc-box warn" id="cart-mixed" hidden>Produtos por encomenda precisam ser comprados separadamente dos de pronta entrega. Remova um dos tipos para continuar.</div>
+          <div class="enc-box" id="cart-enc" hidden>
+            <p>${esc(S.encomenda.note)}</p>
+            <label for="cart-cep">CEP de entrega</label>
+            <input id="cart-cep" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000">
+            <a class="btn-outline" id="cart-wa" target="_blank" rel="noopener">Concluir pelo WhatsApp</a>
+          </div>
           <button class="btn-primary" id="checkout-btn">Finalizar compra</button>
           <div class="err" id="cart-err"></div>
         </footer>
@@ -217,6 +237,13 @@
     $("#close-cart").onclick = closeCart;
     $("#overlay").onclick = closeCart;
     $("#checkout-btn").onclick = checkout;
+    const cepEl = $("#cart-cep");
+    try { cepEl.value = localStorage.getItem("aq_cep") || ""; } catch { /* sem storage */ }
+    cepEl.oninput = () => {
+      const d = cepEl.value.replace(/\D/g, "").slice(0, 8);
+      cepEl.value = d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d;
+      try { localStorage.setItem("aq_cep", cepEl.value); } catch { /* sem storage */ }
+    };
     $("#menu-toggle").onclick = () => $("#nav").classList.toggle("open");
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeCart(); });
     $("#cart-items").addEventListener("click", (e) => {
@@ -231,7 +258,7 @@
 
   /* ---------- Cards ---------- */
   function cardHTML(p) {
-    const tag = p.soldOut ? '<span class="tag out">Esgotado</span>' : p.new ? '<span class="tag">Novo</span>' : "";
+    const tag = p.soldOut ? '<span class="tag out">Esgotado</span>' : p.fulfillment === "encomenda" ? '<span class="tag enc">Por encomenda</span>' : p.new ? '<span class="tag">Novo</span>' : "";
     return `<a class="card ${p.soldOut ? "sold" : ""}" href="produto.html?id=${encodeURIComponent(p.id)}">
       <div class="thumb"><img src="${esc(placeholder(p))}" alt="${esc(p.name)}" loading="lazy">${tag}</div>
       <div class="brand">${esc(p.brand)}</div>
@@ -330,16 +357,25 @@
         <h1>${esc(p.name)}</h1>
         <div class="price">${brl(p.price)}</div>
         <div class="inst">Até ${S.maxInstallments}x de ${brl(p.price / S.maxInstallments)}</div>
+        ${p.fulfillment === "encomenda" ? `<div class="enc-box">${esc(S.encomenda.note)}</div>` : ""}
         <div class="label">Tamanho</div>
         <div class="sizes" id="sizes">${p.sizes.map((s) => `<button class="size ${s === size ? "on" : ""}" data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div>
         <button class="btn-primary" id="add" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Esgotado" : "Adicionar ao carrinho"}</button>
         <div class="err" id="perr"></div>
+        ${p.fulfillment === "encomenda" ? '<a class="btn-outline" id="wa" target="_blank" rel="noopener">Pedir pelo WhatsApp</a>' : ""}
         <p class="desc">${esc(p.description || "")}</p>
       </div>`;
+    const updateWa = () => {
+      const w = $("#wa"); if (!w) return;
+      const msg = `${S.encomenda.whatsappText}\n• ${p.name} (tam. ${size || "a definir"}) — ${brl(p.price)}`;
+      w.href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+    };
+    updateWa();
     $("#sizes").onclick = (e) => {
       const b = e.target.closest(".size"); if (!b) return;
       size = b.dataset.s;
       $$(".size").forEach((x) => x.classList.toggle("on", x === b));
+      updateWa();
     };
     $("#add").onclick = () => {
       if (!size) { $("#perr").textContent = "Selecione um tamanho."; return; }

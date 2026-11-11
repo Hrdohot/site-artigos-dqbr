@@ -22,7 +22,7 @@
     const tl = [...o.timeline].reverse().map((e) => `<li><b>${esc(STATUS[e.status] || e.status)}</b> · ${fmtDate(e.at)}${e.note ? ` — ${esc(e.note)}` : ""}</li>`).join("");
     return `<article class="order">
       <div class="order-head">
-        <div><div class="num">PEDIDO #${o.number}</div><div class="meta">${fmtDate(o.createdAt)}</div></div>
+        <div><div class="num">PEDIDO #${o.number}</div><div class="meta">${fmtDate(o.createdAt)}${o.fulfillment === "encomenda" ? " · Por encomenda" : ""}</div></div>
         <span class="pill ${esc(o.status)}">${esc(STATUS[o.status] || o.status)}</span>
       </div>
       <div class="order-body">

@@ -281,3 +281,12 @@ select,input[type=text],input[type=search],input[type=email]{background:var(--bg
 
 /* garante que elementos [hidden] realmente sumam (ex.: formulário de cadastro na aba Entrar) */
 [hidden]{display:none !important}
+
+/* ===== Pronta entrega x encomenda ===== */
+.tag.enc{background:#fff;color:#000}
+.enc-box{background:var(--bg-3);border-left:3px solid var(--accent-text);padding:12px 14px;font-size:13px;color:rgba(255,255,255,.88);margin:12px 0;line-height:1.5}
+.enc-box.warn{border-color:#ffd37a;color:#ffd37a}
+.enc-box label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px}
+.enc-box input{width:100%;background:var(--bg);color:#fff;border:1px solid var(--line);padding:11px 12px;font:inherit}
+.enc-box .btn-outline{width:100%;margin-top:10px;padding:12px}
+.product .btn-outline{width:100%;margin-top:12px}

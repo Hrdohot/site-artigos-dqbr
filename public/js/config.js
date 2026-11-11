@@ -7,8 +7,8 @@ window.STORE = {
   name: "Artigos de Quebra",
   logoImage: "img/logo.png",
   announcement: "Frete grátis para todo o Brasil",
-  announcementLink: { text: "Não encontrou? Fale com a gente ↗", href: "https://www.instagram.com/artigos_dequebra" },
-  instagram: "https://www.instagram.com/artigos_dequebra",   // ← troque pelo seu @
+  announcementLink: { text: "Não encontrou? Fale com a gente ↗", href: "https://instagram.com/artigosdequebra" },
+  instagram: "https://instagram.com/artigosdequebra",   // ← troque pelo seu @
   whatsapp: "5548999999999",                            // ← DDI+DDD+número, só dígitos
   maxInstallments: 12,
 
@@ -76,6 +76,12 @@ window.STORE = {
     cta: "Pedir uma encomenda",
     video: "",   // ex.: "img/encomenda.mp4"
     poster: "",
+  },
+
+  // Produtos "Por encomenda": entregues só na Grande Florianópolis (a regra é validada no servidor em lib/shop-rules.js)
+  encomenda: {
+    note: "Produto por encomenda: entrega somente em Florianópolis, São José, Palhoça e Biguaçu. Você pode pagar aqui no site ou concluir o pedido pelo WhatsApp.",
+    whatsappText: "Olá! Quero encomendar:",
   },
 
   footerLinks: [

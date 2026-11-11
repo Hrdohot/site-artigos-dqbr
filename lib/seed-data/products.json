@@ -1,14 +1,250 @@
 [
-  { "id": "sneaker-001", "name": "Sneaker Low Edição Limitada", "brand": "MARCA A", "category": "sneakers", "tags": ["lifestyle"], "price": 879.00, "image": "", "color": "#3b4a5a", "sizes": ["38","39","40","41","42","43"], "bestseller": true, "new": false, "description": "Sneaker de cano baixo em edição limitada. Substitua esta descrição pelo texto do seu produto." },
-  { "id": "slide-002", "name": "Slide Confort Preto", "brand": "MARCA B", "category": "sneakers", "tags": ["sandalia"], "price": 499.00, "image": "", "color": "#222", "sizes": ["38","39","40","41","42","43"], "bestseller": true, "new": false, "description": "Slide confortável para o dia a dia." },
-  { "id": "camiseta-003", "name": "Camiseta Slim Fit com Logo — Preto", "brand": "MARCA C", "category": "roupas", "tags": ["camiseta"], "price": 319.00, "image": "", "color": "#111", "sizes": ["P","M","G","GG"], "bestseller": true, "new": false, "description": "Camiseta slim fit em algodão, logo bordado." },
-  { "id": "sneaker-004", "name": "Sneaker Court Branco", "brand": "MARCA B", "category": "sneakers", "tags": ["lifestyle"], "price": 779.00, "image": "", "color": "#d9d9d9", "sizes": ["38","39","40","41","42","43"], "bestseller": true, "new": false, "description": "Clássico branco, versátil e atemporal." },
-  { "id": "camiseta-005", "name": "Camiseta Essentials Off-White", "brand": "MARCA D", "category": "roupas", "tags": ["camiseta"], "price": 289.00, "image": "", "color": "#cfc6b4", "sizes": ["P","M","G","GG"], "bestseller": false, "new": true, "description": "Modelagem relaxada, toque macio." },
-  { "id": "moletom-006", "name": "Moletom com Capuz Preto", "brand": "MARCA C", "category": "roupas", "tags": ["casaco"], "price": 649.00, "image": "", "color": "#1a1a1a", "sizes": ["P","M","G","GG"], "bestseller": false, "new": true, "description": "Moletom com capuz em tecido pesado." },
-  { "id": "sandalia-007", "name": "Sandália Couro Dupla Fivela", "brand": "MARCA E", "category": "sneakers", "tags": ["sandalia"], "price": 599.00, "image": "", "color": "#8a7456", "sizes": ["38","39","40","41","42","43"], "bestseller": false, "new": true, "description": "Sandália em couro com duas fivelas ajustáveis." },
-  { "id": "casaco-008", "name": "Suéter Tricô Trançado Creme", "brand": "MARCA F", "category": "roupas", "tags": ["casaco"], "price": 899.00, "image": "", "color": "#e6dcc6", "sizes": ["P","M","G","GG"], "bestseller": false, "new": true, "description": "Tricô trançado com zíper curto." },
-  { "id": "conjunto-009", "name": "Conjunto Moletom Cinza", "brand": "MARCA D", "category": "conjuntos", "tags": [], "price": 749.00, "image": "", "color": "#6b6b6b", "sizes": ["P","M","G","GG"], "bestseller": false, "new": false, "description": "Conjunto de moletom: casaco + calça." },
-  { "id": "bolsa-010", "name": "Carteira Couro Monograma", "brand": "MARCA G", "category": "bolsas", "tags": [], "price": 459.00, "image": "", "color": "#2c2c2c", "sizes": ["Único"], "bestseller": false, "new": false, "description": "Carteira compacta em couro." },
-  { "id": "acessorio-011", "name": "Relógio Automático Aço", "brand": "MARCA H", "category": "acessorios", "tags": ["relogio"], "price": 2490.00, "image": "", "color": "#9aa0a6", "sizes": ["Único"], "bestseller": false, "new": false, "description": "Relógio automático em aço inoxidável. Sob encomenda." },
-  { "id": "acessorio-012", "name": "Boné Aba Curva Bordado", "brand": "MARCA C", "category": "acessorios", "tags": ["bone"], "price": 199.00, "image": "", "color": "#13213a", "sizes": ["Único"], "bestseller": false, "new": true, "description": "Boné aba curva com bordado frontal." }
+  {
+    "id": "sneaker-001",
+    "name": "Sneaker Low Edição Limitada",
+    "brand": "MARCA A",
+    "category": "sneakers",
+    "tags": [
+      "lifestyle"
+    ],
+    "price": 879.0,
+    "image": "",
+    "color": "#3b4a5a",
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
+    "bestseller": true,
+    "new": false,
+    "description": "Sneaker de cano baixo em edição limitada. Substitua esta descrição pelo texto do seu produto."
+  },
+  {
+    "id": "slide-002",
+    "name": "Slide Confort Preto",
+    "brand": "MARCA B",
+    "category": "sneakers",
+    "tags": [
+      "sandalia"
+    ],
+    "price": 499.0,
+    "image": "",
+    "color": "#222",
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
+    "bestseller": true,
+    "new": false,
+    "description": "Slide confortável para o dia a dia."
+  },
+  {
+    "id": "camiseta-003",
+    "name": "Camiseta Slim Fit com Logo — Preto",
+    "brand": "MARCA C",
+    "category": "roupas",
+    "tags": [
+      "camiseta"
+    ],
+    "price": 319.0,
+    "image": "",
+    "color": "#111",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    "bestseller": true,
+    "new": false,
+    "description": "Camiseta slim fit em algodão, logo bordado."
+  },
+  {
+    "id": "sneaker-004",
+    "name": "Sneaker Court Branco",
+    "brand": "MARCA B",
+    "category": "sneakers",
+    "tags": [
+      "lifestyle"
+    ],
+    "price": 779.0,
+    "image": "",
+    "color": "#d9d9d9",
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
+    "bestseller": true,
+    "new": false,
+    "description": "Clássico branco, versátil e atemporal."
+  },
+  {
+    "id": "camiseta-005",
+    "name": "Camiseta Essentials Off-White",
+    "brand": "MARCA D",
+    "category": "roupas",
+    "tags": [
+      "camiseta"
+    ],
+    "price": 289.0,
+    "image": "",
+    "color": "#cfc6b4",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    "bestseller": false,
+    "new": true,
+    "description": "Modelagem relaxada, toque macio."
+  },
+  {
+    "id": "moletom-006",
+    "name": "Moletom com Capuz Preto",
+    "brand": "MARCA C",
+    "category": "roupas",
+    "tags": [
+      "casaco"
+    ],
+    "price": 649.0,
+    "image": "",
+    "color": "#1a1a1a",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    "bestseller": false,
+    "new": true,
+    "description": "Moletom com capuz em tecido pesado."
+  },
+  {
+    "id": "sandalia-007",
+    "name": "Sandália Couro Dupla Fivela",
+    "brand": "MARCA E",
+    "category": "sneakers",
+    "tags": [
+      "sandalia"
+    ],
+    "price": 599.0,
+    "image": "",
+    "color": "#8a7456",
+    "sizes": [
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43"
+    ],
+    "bestseller": false,
+    "new": true,
+    "description": "Sandália em couro com duas fivelas ajustáveis."
+  },
+  {
+    "id": "casaco-008",
+    "name": "Suéter Tricô Trançado Creme",
+    "brand": "MARCA F",
+    "category": "roupas",
+    "tags": [
+      "casaco"
+    ],
+    "price": 899.0,
+    "image": "",
+    "color": "#e6dcc6",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    "bestseller": false,
+    "new": true,
+    "description": "Tricô trançado com zíper curto."
+  },
+  {
+    "id": "conjunto-009",
+    "name": "Conjunto Moletom Cinza",
+    "brand": "MARCA D",
+    "category": "conjuntos",
+    "tags": [],
+    "price": 749.0,
+    "image": "",
+    "color": "#6b6b6b",
+    "sizes": [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    "bestseller": false,
+    "new": false,
+    "description": "Conjunto de moletom: casaco + calça."
+  },
+  {
+    "id": "bolsa-010",
+    "name": "Carteira Couro Monograma",
+    "brand": "MARCA G",
+    "category": "bolsas",
+    "tags": [],
+    "price": 459.0,
+    "image": "",
+    "color": "#2c2c2c",
+    "sizes": [
+      "Único"
+    ],
+    "bestseller": false,
+    "new": false,
+    "description": "Carteira compacta em couro."
+  },
+  {
+    "id": "acessorio-011",
+    "name": "Relógio Automático Aço",
+    "brand": "MARCA H",
+    "category": "acessorios",
+    "tags": [
+      "relogio"
+    ],
+    "price": 2490.0,
+    "image": "",
+    "color": "#9aa0a6",
+    "sizes": [
+      "Único"
+    ],
+    "bestseller": false,
+    "new": false,
+    "description": "Relógio automático em aço inoxidável. Sob encomenda.",
+    "fulfillment": "encomenda"
+  },
+  {
+    "id": "acessorio-012",
+    "name": "Boné Aba Curva Bordado",
+    "brand": "MARCA C",
+    "category": "acessorios",
+    "tags": [
+      "bone"
+    ],
+    "price": 199.0,
+    "image": "",
+    "color": "#13213a",
+    "sizes": [
+      "Único"
+    ],
+    "bestseller": false,
+    "new": true,
+    "description": "Boné aba curva com bordado frontal."
+  }
 ]

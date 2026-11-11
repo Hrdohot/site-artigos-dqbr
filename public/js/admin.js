@@ -64,6 +64,7 @@
         ${kpi("Clientes", k.customersTotal, `+${k.customersNew30} nos últimos 30 dias`)}
         ${kpi("A enviar", k.toShip, "pagos ou em separação")}
         ${kpi("Aguardando pagamento", k.awaitingPayment, "pedidos pendentes")}
+        ${k.checkAddress ? kpi("Verificar endereço", k.checkAddress, "encomendas pagas fora da Grande Floripa") : ""}
       </div>
       <div class="grid2">
         <div class="pc"><h2>Receita por dia · 30 dias</h2><div class="chart" id="chart">${barChart(d.daily)}</div>
@@ -89,7 +90,7 @@
     const q = norm(ordersState.q.trim());
     const rows = ordersCache.filter((o) => !q || norm(`${o.number} ${o.userName} ${o.userEmail} ${o.customerName}`).includes(q));
     $("#orders-body").innerHTML = rows.length
-      ? rows.map((o) => `<tr><td><b>#${o.number}</b></td><td>${fmtDate(o.createdAt)}</td><td>${esc(o.userName || o.customerName)}<div class="sub">${esc(o.userEmail || "")}</div></td><td>${o.items.reduce((a, i) => a + i.qty, 0)}</td><td class="num">${brlCents(o.totalCents)}</td><td>${pill(o.status)}${o.trackingCode ? `<div class="sub">${esc(o.trackingCode)}</div>` : ""}</td><td class="num"><button class="link-b" data-order="${esc(o.id)}">Abrir</button></td></tr>`).join("")
+      ? rows.map((o) => `<tr><td><b>#${o.number}</b></td><td>${fmtDate(o.createdAt)}</td><td>${esc(o.userName || o.customerName)}<div class="sub">${esc(o.userEmail || "")}</div></td><td>${o.items.reduce((a, i) => a + i.qty, 0)}</td><td class="num">${brlCents(o.totalCents)}</td><td>${pill(o.status)}${o.trackingCode ? `<div class="sub">${esc(o.trackingCode)}</div>` : ""}${o.fulfillment === "encomenda" ? '<div class="sub">Encomenda</div>' : ""}${o.outsideArea ? '<div class="sub" style="color:#ffd37a">⚠ endereço fora da área</div>' : ""}</td><td class="num"><button class="link-b" data-order="${esc(o.id)}">Abrir</button></td></tr>`).join("")
       : '<tr><td colspan="7" class="empty-s">Nenhum pedido encontrado.</td></tr>';
   }
 
@@ -118,6 +119,7 @@
         <dt>Cliente</dt><dd>${esc(o.userName || o.customerName)}</dd>
         <dt>E-mail</dt><dd>${esc(o.customerEmail || o.userEmail)}</dd>
         <dt>Telefone</dt><dd>${esc(o.customerPhone || "—")}</dd>
+        <dt>Tipo</dt><dd>${o.fulfillment === "encomenda" ? "Por encomenda" : "Pronta entrega"}${o.outsideArea ? ' <b style="color:#ffd37a">⚠ endereço fora da Grande Florianópolis: confirme com o cliente</b>' : ""}</dd>
         <dt>Data</dt><dd>${fmtDate(o.createdAt)}</dd>
         <dt>Pagamento</dt><dd>${o.paidAt ? "Confirmado em " + fmtDate(o.paidAt) : "Não confirmado"}</dd>
         <dt>Entrega</dt><dd>${a ? `${esc(a.name || "")}<br>${esc([a.line1, a.line2].filter(Boolean).join(", "))}<br>${esc([a.city, a.state].filter(Boolean).join(" - "))} · CEP ${esc(a.postal_code || "")}` : "— (endereço é coletado no pagamento)"}</dd>
@@ -158,7 +160,7 @@
     const rows = productsCache.filter((p) => !q || norm(`${p.name} ${p.brand} ${p.category}`).includes(q)).reverse();
     $("#prod-body").innerHTML = rows.length ? rows.map((p) => {
       const [c, l] = productStatus(p);
-      return `<tr><td><img class="th" src="${esc(AQ.placeholder(p))}" alt=""></td><td><b>${esc(p.name)}</b><div class="sub">${esc(p.brand)}</div></td><td>${esc((S.categories.find((x) => x.slug === p.category) || { label: p.category }).label)}</td><td class="num">${brl(p.price)}</td><td class="num">${p.stock === null ? "∞" : p.stock}</td><td><span class="pill ${c}">${l}</span></td><td class="num"><button class="link-b" data-product="${esc(p.id)}">Editar</button></td></tr>`;
+      return `<tr><td><img class="th" src="${esc(AQ.placeholder(p))}" alt=""></td><td><b>${esc(p.name)}</b><div class="sub">${esc(p.brand)}${p.fulfillment === "encomenda" ? " · Por encomenda" : ""}</div></td><td>${esc((S.categories.find((x) => x.slug === p.category) || { label: p.category }).label)}</td><td class="num">${brl(p.price)}</td><td class="num">${p.stock === null ? "∞" : p.stock}</td><td><span class="pill ${c}">${l}</span></td><td class="num"><button class="link-b" data-product="${esc(p.id)}">Editar</button></td></tr>`;
     }).join("") : '<tr><td colspan="7" class="empty-s">Nenhum produto.</td></tr>';
   }
 
@@ -202,7 +204,7 @@
 
   function openProduct(id) {
     const p = id ? productsCache.find((x) => x.id === id) : null;
-    const v = p || { name: "", brand: "", category: S.categories[0].slug, price: "", stock: null, sizes: [], tags: [], description: "", color: "#333333", image: "", bestseller: false, isNew: true, active: true };
+    const v = p || { name: "", brand: "", category: S.categories[0].slug, price: "", stock: null, sizes: [], tags: [], description: "", color: "#333333", image: "", fulfillment: "pronta_entrega", bestseller: false, isNew: true, active: true };
     let image = v.image || "";
     modal.open(`
       <h2>${p ? "EDITAR PRODUTO" : "NOVO PRODUTO"}</h2>
@@ -215,6 +217,7 @@
           <div class="field"><label for="pf-sizes">Tamanhos</label><input id="pf-sizes" type="text" value="${esc(v.sizes.join(", "))}" placeholder="P, M, G  ou  38, 39, 40  ou  Único" required><small>Separe por vírgula.</small></div>
           <div class="field"><label for="pf-stock">Estoque</label><input id="pf-stock" type="number" min="0" step="1" value="${v.stock === null ? "" : v.stock}" placeholder="vazio = ilimitado"></div>
         </div>
+        <div class="field"><label for="pf-ful">Tipo de entrega</label><select id="pf-ful"><option value="pronta_entrega" ${v.fulfillment !== "encomenda" ? "selected" : ""}>Pronta entrega (envio para todo o Brasil)</option><option value="encomenda" ${v.fulfillment === "encomenda" ? "selected" : ""}>Por encomenda (só Grande Florianópolis)</option></select></div>
         <div class="field"><label for="pf-tags">Etiquetas de busca</label><input id="pf-tags" type="text" value="${esc(v.tags.join(", "))}" placeholder="camiseta, casaco, sandalia, lifestyle"><small>Usadas nos filtros do menu (ex.: <i>camiseta</i>, <i>casaco</i>, <i>sandalia</i>, <i>lifestyle</i>).</small></div>
         <div class="field"><label for="pf-desc">Descrição</label><textarea id="pf-desc" rows="4" maxlength="3000">${esc(v.description)}</textarea></div>
         <div class="field"><label>Imagem</label>
@@ -251,7 +254,7 @@
       const body = {
         name: $("#pf-name").value, brand: $("#pf-brand").value, category: $("#pf-cat").value, price: $("#pf-price").value,
         sizes: $("#pf-sizes").value, tags: $("#pf-tags").value, stock: $("#pf-stock").value, description: $("#pf-desc").value,
-        color: $("#pf-color").value, image, active: $("#pf-active").checked, bestseller: $("#pf-best").checked, isNew: $("#pf-new").checked,
+        color: $("#pf-color").value, image, fulfillment: $("#pf-ful").value, active: $("#pf-active").checked, bestseller: $("#pf-best").checked, isNew: $("#pf-new").checked,
       };
       try {
         await api(p ? "/admin/products/" + encodeURIComponent(p.id) : "/admin/products", { method: p ? "PUT" : "POST", body });
