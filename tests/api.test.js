@@ -223,7 +223,7 @@ const t = async (name, fn) => { try { await fn(); passed++; console.log('  ✓',
     const post = (s) => fetch(base + '/api/stripe/webhook', { method: 'POST', headers: { 'stripe-signature': 'valid', 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'checkout.session.completed', data: { object: s } }) });
     const encSessions = [...sessions.values()].filter((s) => s.params.metadata.fulfillment === 'encomenda');
     assert.equal(encSessions.length, 4);
-    assert.match(encSessions[0].params.shipping_options[0].shipping_rate_data.display_name, /Grande Florianópolis/);
+    assert.match(encSessions[0].params.shipping_options[0].shipping_rate_data.display_name, /Uber Flash.*Grande Florianópolis/);
     assert.equal(encSessions[0].params.metadata.cep, '88010400');
     const [dentro, fora] = [encSessions[0], encSessions[1]];
     dentro.payment_status = 'paid'; dentro.shipping_details.address.city = 'Palhoça'; dentro.shipping_details.address.postal_code = '88131000';
@@ -232,6 +232,7 @@ const t = async (name, fn) => { try { await fn(); passed++; console.log('  ✓',
     const list = (await admin('GET', '/api/admin/orders')).data.orders.filter((o) => o.fulfillment === 'encomenda' && o.status === 'pago');
     assert.equal(list.length, 2);
     assert.equal(list.filter((o) => o.outsideArea).length, 1);
+    assert.deepEqual(list.map((o) => o.deliveryMethod).sort(), ['envio', 'uber_flash']);
     assert.equal((await admin('GET', '/api/admin/dashboard')).data.kpis.checkAddress, 1);
     const mine = (await bob('GET', '/api/orders')).data.orders; assert.ok(mine.every((o) => !('outsideArea' in o)) && mine.some((o) => o.fulfillment === 'encomenda'));
   });

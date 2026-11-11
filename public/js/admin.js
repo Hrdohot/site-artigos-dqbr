@@ -90,7 +90,7 @@
     const q = norm(ordersState.q.trim());
     const rows = ordersCache.filter((o) => !q || norm(`${o.number} ${o.userName} ${o.userEmail} ${o.customerName}`).includes(q));
     $("#orders-body").innerHTML = rows.length
-      ? rows.map((o) => `<tr><td><b>#${o.number}</b></td><td>${fmtDate(o.createdAt)}</td><td>${esc(o.userName || o.customerName)}<div class="sub">${esc(o.userEmail || "")}</div></td><td>${o.items.reduce((a, i) => a + i.qty, 0)}</td><td class="num">${brlCents(o.totalCents)}</td><td>${pill(o.status)}${o.trackingCode ? `<div class="sub">${esc(o.trackingCode)}</div>` : ""}${o.fulfillment === "encomenda" ? '<div class="sub">Encomenda</div>' : ""}${o.outsideArea ? '<div class="sub" style="color:#ffd37a">⚠ endereço fora da área</div>' : ""}</td><td class="num"><button class="link-b" data-order="${esc(o.id)}">Abrir</button></td></tr>`).join("")
+      ? rows.map((o) => `<tr><td><b>#${o.number}</b></td><td>${fmtDate(o.createdAt)}</td><td>${esc(o.userName || o.customerName)}<div class="sub">${esc(o.userEmail || "")}</div></td><td>${o.items.reduce((a, i) => a + i.qty, 0)}</td><td class="num">${brlCents(o.totalCents)}</td><td>${pill(o.status)}${o.trackingCode ? `<div class="sub">${esc(o.trackingCode)}</div>` : ""}${o.fulfillment === "encomenda" ? '<div class="sub">Encomenda</div>' : ""}${o.deliveryMethod === "uber_flash" ? '<div class="sub">Uber Flash</div>' : ""}${o.outsideArea ? '<div class="sub" style="color:#ffd37a">⚠ endereço fora da área</div>' : ""}</td><td class="num"><button class="link-b" data-order="${esc(o.id)}">Abrir</button></td></tr>`).join("")
       : '<tr><td colspan="7" class="empty-s">Nenhum pedido encontrado.</td></tr>';
   }
 
@@ -119,7 +119,7 @@
         <dt>Cliente</dt><dd>${esc(o.userName || o.customerName)}</dd>
         <dt>E-mail</dt><dd>${esc(o.customerEmail || o.userEmail)}</dd>
         <dt>Telefone</dt><dd>${esc(o.customerPhone || "—")}</dd>
-        <dt>Tipo</dt><dd>${o.fulfillment === "encomenda" ? "Por encomenda" : "Pronta entrega"}${o.outsideArea ? ' <b style="color:#ffd37a">⚠ endereço fora da Grande Florianópolis: confirme com o cliente</b>' : ""}</dd>
+        <dt>Tipo</dt><dd>${o.fulfillment === "encomenda" ? "Por encomenda (Uber Flash)" : "Pronta entrega"}${o.deliveryMethod === "uber_flash" ? " · <b>Enviar por Uber Flash</b>" : o.deliveryMethod === "envio" ? " · Envio nacional (Correios/transportadora)" : ""}${o.outsideArea ? ' <b style="color:#ffd37a">⚠ endereço fora da Grande Florianópolis: confirme com o cliente</b>' : ""}</dd>
         <dt>Data</dt><dd>${fmtDate(o.createdAt)}</dd>
         <dt>Pagamento</dt><dd>${o.paidAt ? "Confirmado em " + fmtDate(o.paidAt) : "Não confirmado"}</dd>
         <dt>Entrega</dt><dd>${a ? `${esc(a.name || "")}<br>${esc([a.line1, a.line2].filter(Boolean).join(", "))}<br>${esc([a.city, a.state].filter(Boolean).join(" - "))} · CEP ${esc(a.postal_code || "")}` : "— (endereço é coletado no pagamento)"}</dd>
@@ -217,7 +217,7 @@
           <div class="field"><label for="pf-sizes">Tamanhos</label><input id="pf-sizes" type="text" value="${esc(v.sizes.join(", "))}" placeholder="P, M, G  ou  38, 39, 40  ou  Único" required><small>Separe por vírgula.</small></div>
           <div class="field"><label for="pf-stock">Estoque</label><input id="pf-stock" type="number" min="0" step="1" value="${v.stock === null ? "" : v.stock}" placeholder="vazio = ilimitado"></div>
         </div>
-        <div class="field"><label for="pf-ful">Tipo de entrega</label><select id="pf-ful"><option value="pronta_entrega" ${v.fulfillment !== "encomenda" ? "selected" : ""}>Pronta entrega (envio para todo o Brasil)</option><option value="encomenda" ${v.fulfillment === "encomenda" ? "selected" : ""}>Por encomenda (só Grande Florianópolis)</option></select></div>
+        <div class="field"><label for="pf-ful">Tipo de entrega</label><select id="pf-ful"><option value="pronta_entrega" ${v.fulfillment !== "encomenda" ? "selected" : ""}>Pronta entrega (todo o Brasil; Uber Flash na Grande Florianópolis)</option><option value="encomenda" ${v.fulfillment === "encomenda" ? "selected" : ""}>Por encomenda (compra da China, só Grande Florianópolis por Uber Flash)</option></select></div>
         <div class="field"><label for="pf-tags">Etiquetas de busca</label><input id="pf-tags" type="text" value="${esc(v.tags.join(", "))}" placeholder="camiseta, casaco, sandalia, lifestyle"><small>Usadas nos filtros do menu (ex.: <i>camiseta</i>, <i>casaco</i>, <i>sandalia</i>, <i>lifestyle</i>).</small></div>
         <div class="field"><label for="pf-desc">Descrição</label><textarea id="pf-desc" rows="4" maxlength="3000">${esc(v.description)}</textarea></div>
         <div class="field"><label>Imagem</label>

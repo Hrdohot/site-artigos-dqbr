@@ -47,8 +47,8 @@ Senhas de clientes e do admin ficam no banco **apenas como hash (scrypt)**. A se
 
 ## Regras de entrega
 
-- **Pronta entrega:** enviado para todo o Brasil (endereço coletado no pagamento).
-- **Por encomenda:** entregue somente em Florianópolis, São José, Palhoça e Biguaçu. O cliente pode pagar no site ou concluir pelo WhatsApp.
+- **Pronta entrega:** enviado para todo o Brasil (endereço coletado no pagamento). Se o endereço for da Grande Florianópolis, o painel marca **"Enviar por Uber Flash"**; fora dela, "Envio nacional".
+- **Por encomenda** (compra na China, prazo longo): entregue somente por **Uber Flash** em Florianópolis, São José, Palhoça e Biguaçu. O cliente pode pagar no site ou concluir pelo WhatsApp.
 - Pronta entrega e encomenda **não se misturam** no mesmo carrinho (o site avisa).
 - No carrinho de encomenda o cliente informa o **CEP**; o servidor recusa CEPs fora da área. Depois do pagamento, o endereço digitado na Stripe é conferido de novo: se estiver fora da área, o pedido aparece no painel com o aviso "⚠ endereço fora da área" (e um card "Verificar endereço" no dashboard) para você falar com o cliente ou reembolsar.
 - O tipo é definido em cada produto (*Tipo de entrega* no painel). As cidades e faixas de CEP ficam em `lib/shop-rules.js`.

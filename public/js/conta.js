@@ -19,10 +19,11 @@
     const track = o.trackingCode
       ? `<div class="track"><div><div style="font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase">Código de rastreio</div><code>${esc(o.trackingCode)}</code></div><button class="btn-outline" style="padding:10px 18px" data-copy="${esc(o.trackingCode)}">Copiar</button></div>`
       : "";
+    const via = o.deliveryMethod === "uber_flash" ? "Entrega por Uber Flash" : o.deliveryMethod === "envio" ? "Envio para todo o Brasil" : "";
     const tl = [...o.timeline].reverse().map((e) => `<li><b>${esc(STATUS[e.status] || e.status)}</b> · ${fmtDate(e.at)}${e.note ? ` — ${esc(e.note)}` : ""}</li>`).join("");
     return `<article class="order">
       <div class="order-head">
-        <div><div class="num">PEDIDO #${o.number}</div><div class="meta">${fmtDate(o.createdAt)}${o.fulfillment === "encomenda" ? " · Por encomenda" : ""}</div></div>
+        <div><div class="num">PEDIDO #${o.number}</div><div class="meta">${fmtDate(o.createdAt)}${o.fulfillment === "encomenda" ? " · Por encomenda" : ""}${via ? " · " + via : ""}</div></div>
         <span class="pill ${esc(o.status)}">${esc(STATUS[o.status] || o.status)}</span>
       </div>
       <div class="order-body">

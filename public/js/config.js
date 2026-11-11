@@ -80,7 +80,7 @@ window.STORE = {
 
   // Produtos "Por encomenda": entregues só na Grande Florianópolis (a regra é validada no servidor em lib/shop-rules.js)
   encomenda: {
-    note: "Produto por encomenda: entrega somente em Florianópolis, São José, Palhoça e Biguaçu. Você pode pagar aqui no site ou concluir o pedido pelo WhatsApp.",
+    note: "Produto por encomenda (comprado na China, prazo maior): entrega somente por Uber Flash em Florianópolis, São José, Palhoça e Biguaçu. Você pode pagar aqui no site ou concluir o pedido pelo WhatsApp.",
     whatsappText: "Olá! Quero encomendar:",
   },
 

@@ -378,7 +378,7 @@
       updateWa();
     };
     $("#add").onclick = () => {
-      if (!size) { $("#perr").textContent = "Selecione um tamanho."; return; }
+      if (!size) { $("#perr").textContent = "Selecione um tamanho."; AQ.toast("Selecione um tamanho"); return; }
       $("#perr").textContent = "";
       cart.add(p.id, size);
       openCart();
